@@ -7,14 +7,14 @@ import { GalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { Loader } from './Loader/Loader';
 import { ModalWindow } from './Modal/Modal';
 import { Searchbar } from './Searchbar/Searchbar';
-// import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 export class App extends Component {
   state = {
     images: [],
     searchQuery: '',
     page: 1,
-    showLoadMoreButton: false,
+    loadMoreButton: false,
     showModal: false,
     error: null,
     isLoading: false,
@@ -30,7 +30,7 @@ export class App extends Component {
         this.setState({ isLoading: true });
         const response = await axios.get('https://pixabay.com/api/', {
           params: {
-            key: '29744257-c594c594fd182235a7d0b53c9',
+            key: '29947512-f3d06c4dc09f4cffc6828f6d0',
             q: this.state.searchQuery,
             image_type: 'photo',
             orientation: 'horizontal',
@@ -43,16 +43,15 @@ export class App extends Component {
           return { images: [...prevState.images, ...response.data.hits] };
         });
         if (response.data.totalHits === 0) {
-          // console.log('oops');
-          // toast.error('Nothing found.');
+          toast.error('Nothing found.');
         }
         if (response.data.hits.length < 12) {
-          this.setState({ showLoadMoreButton: false });
+          this.setState({ loadMoreButton: false });
         } else {
-          this.setState({ showLoadMoreButton: true });
+          this.setState({ loadMoreButton: true });
         }
       } catch (error) {
-        this.setState({ error: 'oops🤷‍♀️ try reloading the page🤞' });
+        this.setState({ error: 'reloading the page' });
       } finally {
         setTimeout(() => {
           this.setState({ isLoading: false });
@@ -75,9 +74,6 @@ export class App extends Component {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
-  // toggleModal = () => {
-  //   this.setState(state => ({ showModal: !state.showModal }));
-  // };
   toggleModal = (tag, img) => {
     this.setState(prev => ({
       showModal: !prev.showModal,
@@ -90,7 +86,7 @@ export class App extends Component {
     const {
       error,
       images,
-      showLoadMoreButton,
+      loadMoreButton,
       showModal,
       isLoading,
       modalURL,
@@ -102,11 +98,11 @@ export class App extends Component {
         <Searchbar handleSubmit={handleSubmit} />
         {error && <div>{error}</div>}
         {isLoading && <Loader />}
-        {/* <Toaster position="top-right" reverseOrder={false} /> */}
+        <Toaster position="top-right" reverseOrder={false} />
         <Gallery>
           <GalleryItem items={images} toggleModal={toggleModal} />
         </Gallery>
-        {showLoadMoreButton && <LoadMore handleLoadMore={handleLoadMore} />}
+        {loadMoreButton && <LoadMore handleLoadMore={handleLoadMore} />}
         {showModal && (
           <ModalWindow onClose={toggleModal}>
             <img src={modalURL} alt={modalALT} />

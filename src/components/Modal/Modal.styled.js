@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 
 export const Overlay = styled.div`
+  height: 100vh;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
   width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1200;
 `;
 
 export const Modal = styled.div`
-  max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
+  height: auto;
+  left: 50%;
+  position: relative;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+`;
+
+export const ModalImg = styled.img`
+  display: block;
+  height: auto;
+  max-width: 100%;
 `;
