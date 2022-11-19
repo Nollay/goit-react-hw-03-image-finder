@@ -60,14 +60,12 @@ export class App extends Component {
     }
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = query => {
     this.setState({
-      searchQuery: e.target.elements.query.value,
+      searchQuery: query,
       page: 1,
       images: [],
     });
-    e.target.elements.query.value = '';
   };
 
   handleLoadMore = () => {

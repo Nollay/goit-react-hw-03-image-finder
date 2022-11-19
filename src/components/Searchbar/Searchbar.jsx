@@ -2,9 +2,16 @@ import { Header, Form, SearchButton, SearchInput } from './Searchbar.styled';
 import PropTypes from 'prop-types';
 
 export const Searchbar = ({ handleSubmit }) => {
+  const oonSubmit = e => {
+    e.preventDefault();
+    const query = e.target.elements.query;
+    handleSubmit(query.value);
+    query.value = '';
+  };
+
   return (
     <Header>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={oonSubmit}>
         <SearchButton type="submit">
           <span>search</span>
         </SearchButton>

@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Overlay, Modal as ModalStyled, ModalImg } from './Modal.styled';
+import { Overlay, Modal } from './Modal.styled';
 
-const modalRoot = document.querySelector('#modal-root');
+const ModalRoot = document.querySelector('#root');
 
 export class ModalWindow extends Component {
-  static defaultProps = {
-    alt: 'Large image',
-  };
-
-  static propTypes = {
-    url: PropTypes.string.isRequired,
-    alt: PropTypes.string,
-    onClose: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
@@ -28,20 +18,21 @@ export class ModalWindow extends Component {
       this.props.onClose();
     }
   };
+
   handleBackdropClick = e => {
     if (e.currentTarget === e.target) {
       this.props.onClose();
     }
   };
   render() {
-    const { url, alt } = this.props;
     return createPortal(
       <Overlay onClick={this.handleBackdropClick}>
-        <ModalStyled>
-          <ModalImg src={url} alt={alt} />
-        </ModalStyled>
+        <Modal>{this.props.children}</Modal>
       </Overlay>,
-      modalRoot
+      ModalRoot
     );
   }
 }
+ModalWindow.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
